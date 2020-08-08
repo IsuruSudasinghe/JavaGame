@@ -2,9 +2,13 @@ package MInefront;
 
 
 import GraphicsGames.Render;
+import GraphicsGames.Screen;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 
 public class Display extends Canvas implements Runnable {
@@ -14,9 +18,11 @@ public class Display extends Canvas implements Runnable {
 
 
     private Thread thread;
-    private Render render;
-    private boolean running = false;
+    private Screen screen;
+    private BufferedImage img;
 
+    private boolean running = false;
+    private int[] pixels;
 
 
     public static void main(String[] args) {
@@ -34,9 +40,11 @@ public class Display extends Canvas implements Runnable {
     }
 
     private  Display(){
-        render = new Render(width,height);
+        screen = new Screen(width,height);
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        pixels = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
     }
-    
+
     private void start() {
         if (running) return;
         running = true;
@@ -56,9 +64,32 @@ public class Display extends Canvas implements Runnable {
 
     }
 
+    private void tick(){}
+
+    private void render(){
+        BufferStrategy bs = this.getBufferStrategy();
+        if(bs == null){
+            createBufferStrategy(3);
+            return;
+        }
+
+        screen.render();
+
+        for(int i = 0; i < width*height; i++){
+            pixels[i] = screen.pixels[i];
+        }
+
+        Graphics g = bs.getDrawGraphics();
+        g.drawImage(img, 0,0,width,height, null);
+        g.dispose();
+        bs.show();
+
+    }
+
     public void run() {
         while (running) {
-            System.out.println("Running...");
+            tick();
+            render();
         }
     }
 }
