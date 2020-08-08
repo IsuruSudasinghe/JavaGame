@@ -1,7 +1,6 @@
 package MInefront;
 
 
-import GraphicsGames.Render;
 import GraphicsGames.Screen;
 
 import javax.swing.*;
@@ -25,6 +24,12 @@ public class Display extends Canvas implements Runnable {
     private int[] pixels;
 
 
+    private Display() {
+        screen = new Screen(width, height);
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
+    }
+
     public static void main(String[] args) {
         Display game = new Display();
         JFrame window = new JFrame();
@@ -37,12 +42,6 @@ public class Display extends Canvas implements Runnable {
         window.setTitle(title);
 
         game.start();
-    }
-
-    private  Display(){
-        screen = new Screen(width,height);
-        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        pixels = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
     }
 
     private void start() {
@@ -64,23 +63,24 @@ public class Display extends Canvas implements Runnable {
 
     }
 
-    private void tick(){}
+    private void tick() {
+    }
 
-    private void render(){
+    private void render() {
         BufferStrategy bs = this.getBufferStrategy();
-        if(bs == null){
+        if (bs == null) {
             createBufferStrategy(3);
             return;
         }
 
         screen.render();
 
-        for(int i = 0; i < width*height; i++){
+        for (int i = 0; i < width * height; i++) {
             pixels[i] = screen.pixels[i];
         }
 
         Graphics g = bs.getDrawGraphics();
-        g.drawImage(img, 0,0,width,height, null);
+        g.drawImage(img, 0, 0, width, height, null);
         g.dispose();
         bs.show();
 
