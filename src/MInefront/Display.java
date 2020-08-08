@@ -1,6 +1,8 @@
 package MInefront;
 
 
+import GraphicsGames.Render;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,7 +14,7 @@ public class Display extends Canvas implements Runnable {
 
 
     private Thread thread;
-    private Graphics.Render render;
+    private Render render;
     private boolean running = false;
 
 
@@ -32,18 +34,9 @@ public class Display extends Canvas implements Runnable {
     }
 
     private  Display(){
-        renderer = new Renderer() {
-            @Override
-            public void setValue(Object aValue, boolean isSelected) {
-
-            }
-
-            @Override
-            public Component getComponent() {
-                return null;
-            }
-        };
+        render = new Render(width,height);
     }
+    
     private void start() {
         if (running) return;
         running = true;
