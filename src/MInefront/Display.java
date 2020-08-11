@@ -11,8 +11,8 @@ import java.awt.image.DataBufferInt;
 
 
 public class Display extends Canvas implements Runnable {
-    private static final int height = 600;
-    private static final int width = 800;
+    public static final int height = 600;
+    public static final int width = 800;
     private static final String title = "Test Game 1.0";
 
 

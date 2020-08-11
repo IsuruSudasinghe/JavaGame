@@ -19,12 +19,17 @@ public class Screen extends Render {
     }
 
     public void render() {
-        for (int i = 0 ; i < height * width; i++) pixels[i] = 0;
-        int xAnim = (int) (Math.sin(System.currentTimeMillis() % 1000.00 / 500 * Math.PI * 2) * 2.5);
-        int yAnim = (int) (Math.cos(System.currentTimeMillis() % 1000.00 / 1000 * Math.PI * 2) * 1.5);
-        System.out.println("x: " + xAnim + "  y: " + yAnim + "   Sys time :" + (Math.sin(System.currentTimeMillis() % 1000.00)));
+        for (int i = 0; i < height * width; i++) pixels[i] = 0;
 
-        draw(testSC, (width - 254) / 2 * xAnim, (height - 254) / 2 * yAnim );
+        for (int i =0 ; i < 200; i ++   ) {
+            int xAnim = (int) ((Math.sin(System.currentTimeMillis() + i) % 2000.0 /2000.0    * Math.PI * 2) * 200);
+            int yAnim = (int) ((Math.cos(System.currentTimeMillis()+ i) % 2000.0 / 2000.0 * Math.PI * 2) * 200);
+
+            draw(testSC, (width - 254) / 2 * xAnim, (height - 254) / 2 * yAnim);
+            System.out.println("x: " + ((width - 254) / 2 * xAnim) + "  y: " + ((height - 254) / 2 * yAnim) + "   Sys time :" + (Math.sin(System.currentTimeMillis() + i)));
+
+        }
+
     }
 
 }
